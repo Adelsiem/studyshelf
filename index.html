@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>StudyShelf — Mustapha Adeola Elsie</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+<div class="page-wrapper">
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="site-header">
+    <div class="logo">📚 Study<span>Shelf</span></div>
+    <div class="owner-badge">
+      <div class="owner-name">Mustapha Adeola Elsie</div>
+      <div class="owner-matric">2023/12140</div>
+    </div>
+    <div class="header-tag">PDF Repository</div>
+  </header>
+
+  <!-- ═══ HERO ═══ -->
+  <div class="hero-strip">
+    <div class="hero-strip-inner">
+      <div>
+        <div class="hero-eyebrow">Document Management Dashboard</div>
+        <h1>Ingest, store &amp;<br/><em>retrieve PDFs</em></h1>
+        <p>Upload PDFs once — they stay permanently, even after closing the browser. Invalid files are automatically rejected.</p>
+      </div>
+      <div class="repo-counter">
+        <span class="count-num" id="heroCount">0</span>
+        <span class="count-label">PDFs stored</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ DASHBOARD (two-panel) ═══ -->
+  <div class="dashboard-wrap">
+    <div class="main-container">
+
+      <!-- LEFT PANEL: Ingestion (40%) -->
+      <div class="panel-left">
+
+        <div class="panel-heading">
+          <div class="panel-heading-icon">📥</div>
+          <div>
+            <h2>Ingestion</h2>
+            <p>Upload PDF files only · batch upload</p>
+          </div>
+        </div>
+
+        <!-- Drop zone — accept="application/pdf" multiple -->
+        <div class="drop-zone" id="dropZone"
+             ondragover="onDragOver(event)"
+             ondragleave="onDragLeave()"
+             ondrop="onDrop(event)"
+             onclick="document.getElementById('fileInput').click()">
+          <input type="file" id="fileInput"
+                 accept="application/pdf"
+                 multiple
+                 onchange="previewFiles(this.files)"/>
+          <div class="drop-icon">📄</div>
+          <div class="drop-text">
+            Drop PDF files here<br/>or <strong>click to browse</strong>
+          </div>
+        </div>
+
+        <!-- File name preview -->
+        <div class="file-preview" id="filePreview">
+          <div id="filePreviewList"></div>
+        </div>
+
+        <!-- Upload button -->
+        <button class="btn-upload" id="uploadBtn" onclick="ingestFiles()">
+          ⬆ Ingest to Repository
+        </button>
+
+        <!-- Progress bar -->
+        <div class="progress-wrap" id="progressWrap">
+          <div class="progress-bar-bg">
+            <div class="progress-bar" id="progressBar"></div>
+          </div>
+          <div class="progress-label" id="progressLabel">Saving…</div>
+        </div>
+
+        <!-- Status messages (required) -->
+        <div id="statusMessages"></div>
+
+        <!-- Stats grid -->
+        <div class="stats-grid">
+          <div class="stat-box">
+            <div class="stat-val" id="statIngested">0</div>
+            <div class="stat-lbl">Ingested</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-val" id="statFailed" style="color:#f87171">0</div>
+            <div class="stat-lbl">Rejected</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-val" id="statTotal">0</div>
+            <div class="stat-lbl">Total</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-val" id="statSize">0 KB</div>
+            <div class="stat-lbl">Stored</div>
+          </div>
+        </div>
+
+      </div><!-- /panel-left -->
+
+      <!-- RIGHT PANEL: Repository (60%) -->
+      <div class="panel-right">
+
+        <div class="repo-toolbar">
+          <div class="panel-heading">
+            <div class="panel-heading-icon">🗂</div>
+            <div>
+              <h2>Repository</h2>
+              <p>Permanently stored PDFs</p>
+            </div>
+          </div>
+          <button class="btn-clear" onclick="clearRepository()">🗑 Clear All</button>
+        </div>
+
+        <!-- Scrollable list (overflow-y: auto in CSS) -->
+        <ul id="repository">
+          <li class="repo-loading">
+            <div class="spinner"></div>
+            <span>Loading repository…</span>
+          </li>
+        </ul>
+
+      </div><!-- /panel-right -->
+
+    </div><!-- /main-container -->
+  </div><!-- /dashboard-wrap -->
+
+</div><!-- /page-wrapper -->
+
+<div class="toast" id="toast"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
